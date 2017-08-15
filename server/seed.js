@@ -543,7 +543,7 @@ var data = {
 };
 
 db
-  .sync({ force: true })
+  .sync({ "logging": false })
   .then(function() {
     console.log("Dropped old data, now inserting data");
     return Promise.map(Object.keys(data), function(name) {

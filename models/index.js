@@ -1,6 +1,6 @@
 var Sequelize = require('Sequelize');
 
-const db = new Sequelize("postgres://localhost:5432/tripplanner");
+const db = new Sequelize("postgres://localhost:5432/tripplanner", {logging: false});
 
 const Place = db.define(
   "place" , {
@@ -61,3 +61,7 @@ const Restaurant = db.define(
 Hotel.belongsTo(Place, {aS:"home"});
 Restaurant.belongsTo(Place, {aS:"home"});
 Activity.belongsTo(Place, {aS:"home"});
+
+module.exports = {
+  Place,Hotel,Activity, Restaurant, db
+}
