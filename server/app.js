@@ -3,7 +3,7 @@ var morgan = require("morgan");
 var bodyParser = require("body-parser");
 var path = require("path");
 
-var db = require("./models").db;
+var db = require("../models").db;
 
 var app = express();
 

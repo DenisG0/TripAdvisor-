@@ -1,4 +1,3 @@
-var seed = require('../server/seed.js');
 var Sequelize = require('Sequelize');
 
 const db = new Sequelize("postgres://localhost:5432/tripplanner");
@@ -61,4 +60,4 @@ const Restaurant = db.define(
 
 Hotel.belongsTo(Place, {aS:"home"});
 Restaurant.belongsTo(Place, {aS:"home"});
-Activity.belongSTo(Place, {aS:"home"});
+Activity.belongsTo(Place, {aS:"home"});
