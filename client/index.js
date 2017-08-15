@@ -18,23 +18,23 @@ const map = new mapboxgl.Map({
 fetch('/api')
 .then(result=>result.json())
 .then(data=>{
-  // console.log("DATA@0",data[0])
+  console.log("DATA@0",data)
 
   const hotelList=data[0]
   const parent = document.getElementById('hotels-choices')
-console.log(parent)
-  const option =document.createElement("option");
-  option.value="hotel"
-  // console.log(option)
-  console.log(hotelList[1].name)
-  var hotel1 =option.append(hotelList[1].name)
-  console.log("HOTEL1",hotel1)
-  // option.append([i])
-  // parent.appendChild(hotel.name)
-for(var i=0;i<hotelList.length;i++){
-  parent.append(option.append(hotelList[i].name))
-}
+// console.log(parent)
+  // const option =document.createElement("option");
+  // option.value="hotel"
+  // option.append(hotelList[0].name)
+
+var mapArr =hotelList.forEach(function(a){
+  const option = document.createElement("option")
+  option.append(a.name)
+  parent.append(option)   ///OR PARENT.ADD add method is specific for select tags
+})
+
+// var 
 })
 .catch(console.error)
 
-//we want to attach each element in the at array[0] to an option tage in the select #hote-choices tag
+//we want to attach each element in the at array[0] to an option tage in the select #hote-choices 

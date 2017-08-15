@@ -15,8 +15,8 @@ router.get('/api', function(req,res,next){
     var hotels = Hotel.findAll({ include: [{ all: true }] });
     // console.log("HOTELS",hotels)
     var places = Place.findAll();
-    var restaurants = Restaurant.findAll()
-    var activities = Activity.findAll()
+    var restaurants = Restaurant.findAll({ include: [{ all: true }] })
+    var activities = Activity.findAll({ include: [{ all: true }] })
 
     Promise.all([hotels,places,restaurants,activities])
     .then(function(promises){
