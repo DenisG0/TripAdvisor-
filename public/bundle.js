@@ -537,8 +537,8 @@ module.exports = __webpack_require__(5);
 
 const mapboxgl = __webpack_require__(0);
 const buildMarker = __webpack_require__(4);
-
-/*
+const createListDiv = __webpack_require__(6)
+/*git 
   * Instantiate the Map
   */
 
@@ -608,28 +608,46 @@ fetch('/api')
   
 ////HOTELS/////////////////////////////////////////////////////////////////
   document.getElementById('hotels-add').addEventListener('click',function(){
-
+///CREATE DIV
     const select =document.getElementById('hotels-choices')
     const selectedId =select.value;
     const hotelEl = document.createElement("div")
     hotelEl.append(selectedId)
-    // console.log(hotelEl)
+///END CREATE DIV
 
-    document.getElementById("hotels-list").append(hotelEl)
+//CREATE BUTTON
+    const button = document.createElement("button")
+    button.classList.add("btn-danger")
+    button.append("X")
+    hotelEl.appendChild(button)
+//END CREATE BUTTON
    
+//APPEND BUTTON AND DIV
+    document.getElementById("hotels-list").append(hotelEl)
+//END APPEND BUTTON AND DIV
+
+    ///LOOKS UP LOCATION
     var lookup = data[0].filter(function(obj){
       if(obj.name==selectedId){
         return data[0]
       }
     })
+
     var location =lookup[0].place.location
     console.log(location)
-      
-      buildMarker('hotels',location).addTo(map)
+     //END LOOK UP LOCATION 
+     
+     //CREATE AND FLT YO MARKER
+     var marker= buildMarker('hotels',location).addTo(map)
+     map.flyTo({center: location, zoom: 17})
+  //END CREATE AND FLY TO MAREKR 
 
-  
-
-
+  //REMOVE 
+     button.onclick=function(){
+      hotelEl.remove();
+     marker.remove()
+    }
+//END REMOVE 
 
   })
 
@@ -640,6 +658,11 @@ fetch('/api')
       const restEl = document.createElement("div");
       restEl.append(selectId)
 
+      const button = document.createElement("button")
+      button.classList.add("btn-danger")
+      button.append("X")
+      restEl.appendChild(button)
+
       document.getElementById('restaurants-list').appendChild(restEl)
     
       var lookup = data[2].filter(function(obj){
@@ -649,7 +672,14 @@ fetch('/api')
     })
       var location =lookup[0].place.location
 
-      buildMarker('restaurants',location).addTo(map)
+      var marker =buildMarker('restaurants',location).addTo(map)
+      map.flyTo({center: location, zoom: 17})
+
+
+      button.onclick=function(){
+        restEl.remove();
+       marker.remove()
+      }
   });
 
 
@@ -661,15 +691,29 @@ fetch('/api')
     const actEl = document.createElement("div");
     actEl.append(selectId)
 
+    const button = document.createElement("button")
+    button.classList.add("btn-danger")
+    button.append("X")
+    actEl.appendChild(button)
+
     document.getElementById('activities-list').appendChild(actEl)
 
+   
     var lookup = data[3].filter(function(obj){
       if(obj.name==selectId){
         return data[0]
     }
   })
     var location =lookup[0].place.location
-    buildMarker('activities',location).addTo(map)
+
+
+    var marker =buildMarker('activities',location).addTo(map)
+    map.flyTo({center: location, zoom: 17})
+
+    button.onclick=function(){
+      actEl.remove();
+     marker.remove()
+    }
 
     });
 
@@ -740,6 +784,61 @@ module.exports = buildMarker;
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports) {
+
+
+//thing is alway plural
+function createListDiv(thing, locInArr){
+    document.getElementById(`${thing}-add`).addEventListener('click',function(){
+        ///CREATE DIV
+            const select =document.getElementById(`${thing}-choices`)
+            const selectedId =select.value;
+            const hotelEl = document.createElement("div")
+            hotelEl.append(selectedId)
+        ///END CREATE DIV
+        
+        //CREATE BUTTON
+            const button = document.createElement("button")
+            button.classList.add("btn-danger")
+            button.append("X")
+            hotelEl.appendChild(button)
+        //END CREATE BUTTON
+           
+        //APPEND BUTTON AND DIV
+            document.getElementById(`${thing}-list`).append(hotelEl)
+        //END APPEND BUTTON AND DIV
+        
+            ///LOOKS UP LOCATION
+            var lookup = data[`${locInArr}`].filter(function(obj){
+              if(obj.name==selectedId){
+                return data[0]
+              }
+            })
+        
+            var location =lookup[0].place.location
+            console.log(location)
+             //END LOOK UP LOCATION 
+             
+             //CREATE AND FLT YO MARKER
+             var marker= buildMarker(`${thing}`,location).addTo(map)
+             map.flyTo({center: location, zoom: 17})
+          //END CREATE AND FLY TO MAREKR 
+        
+          //REMOVE 
+             button.onclick=function(){
+              hotelEl.remove();
+             marker.remove()
+            }
+        //END REMOVE 
+        
+          })
+
+}
+
+module.exports ={createListDiv}
 
 /***/ })
 /******/ ]);
