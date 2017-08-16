@@ -1,20 +1,6 @@
 const mapboxgl = require("mapbox-gl");
 const buildMarker = require("./marker");
-const createListDiv = require('./helper')
-/*git 
-  * Instantiate the Map
-  */
-
-mapboxgl.accessToken = 'pk.eyJ1IjoiZGVuaXNnMCIsImEiOiJjajY4N3dmMjAwZGJzMzNwbGUzYzR3eGd1In0.LAv0u0CjUdnFBRYmjTfNfg';
-const map = new mapboxgl.Map({
-  container: "map-canvas",
-  center: [-74.0, 40.731],
-  zoom: 12.5, // starting zoom
-  pitch: 35,
-  bearing: 20,
-  style: "mapbox://styles/mapbox/streets-v10"
-});
-// console.log("HEELLLOOOO")
+const helper = require('./helper')
 
 fetch('/api')
 .then(result=>result.json())
@@ -23,10 +9,7 @@ fetch('/api')
 
   const hotelList=data[0]
   const parent = document.getElementById('hotels-choices')
-// console.log(parent)
-  // const option =document.createElement("option");
-  // option.value="hotel"
-  // option.append(hotelList[0].name)
+
 
 var mapArr =hotelList.forEach(function(a){
   const option = document.createElement("option")
@@ -56,137 +39,13 @@ var mapRest =restList.forEach(function(a){
 })
 .catch(console.error)
 
-//we want to attach each element in the at array[0] to an option tage in the select #hote-choices 
-//HELPER FUNCTION LOOKUP 
-
-// let lookup=function(dataArr){
-//   dataArr.filter(function(obj){
-//     if(obj.name==selectedId){
-//       return dataArr
-// }
-
 fetch('/api')
 .then(result=>result.json())
 .then(data=>{
-  
-////HOTELS/////////////////////////////////////////////////////////////////
-  document.getElementById('hotels-add').addEventListener('click',function(){
-///CREATE DIV
-    const select =document.getElementById('hotels-choices')
-    const selectedId =select.value;
-    const hotelEl = document.createElement("div")
-    hotelEl.append(selectedId)
-///END CREATE DIV
 
-//CREATE BUTTON
-    const button = document.createElement("button")
-    button.classList.add("btn-danger")
-    button.append("X")
-    hotelEl.appendChild(button)
-//END CREATE BUTTON
-   
-//APPEND BUTTON AND DIV
-    document.getElementById("hotels-list").append(hotelEl)
-//END APPEND BUTTON AND DIV
+ console.log(helper)
+ helper("hotels",0);
+ helper('restaurants',2);
+ helper('activities',3);
 
-    ///LOOKS UP LOCATION
-    var lookup = data[0].filter(function(obj){
-      if(obj.name==selectedId){
-        return data[0]
-      }
-    })
-
-    var location =lookup[0].place.location
-    console.log(location)
-     //END LOOK UP LOCATION 
-     
-     //CREATE AND FLT YO MARKER
-     var marker= buildMarker('hotels',location).addTo(map)
-     map.flyTo({center: location, zoom: 17})
-  //END CREATE AND FLY TO MAREKR 
-
-  //REMOVE 
-     button.onclick=function(){
-      hotelEl.remove();
-     marker.remove()
-    }
-//END REMOVE 
-
-  })
-
-
-  document.getElementById('restaurants-add').addEventListener('click',function(){
-      const select =document.getElementById('restaurants-choices');
-      const selectId = select.value;
-      const restEl = document.createElement("div");
-      restEl.append(selectId)
-
-      const button = document.createElement("button")
-      button.classList.add("btn-danger")
-      button.append("X")
-      restEl.appendChild(button)
-
-      document.getElementById('restaurants-list').appendChild(restEl)
-    
-      var lookup = data[2].filter(function(obj){
-        if(obj.name==selectId){
-          return data[0]
-      }
-    })
-      var location =lookup[0].place.location
-
-      var marker =buildMarker('restaurants',location).addTo(map)
-      map.flyTo({center: location, zoom: 17})
-
-
-      button.onclick=function(){
-        restEl.remove();
-       marker.remove()
-      }
-  });
-
-
-
-//////////////ACTIVITIES////////////////////////////////////////////////
-  document.getElementById('activities-add').addEventListener('click',function(){
-    const select =document.getElementById('activities-choices');
-    const selectId = select.value;
-    const actEl = document.createElement("div");
-    actEl.append(selectId)
-
-    const button = document.createElement("button")
-    button.classList.add("btn-danger")
-    button.append("X")
-    actEl.appendChild(button)
-
-    document.getElementById('activities-list').appendChild(actEl)
-
-   
-    var lookup = data[3].filter(function(obj){
-      if(obj.name==selectId){
-        return data[0]
-    }
-  })
-    var location =lookup[0].place.location
-
-
-    var marker =buildMarker('activities',location).addTo(map)
-    map.flyTo({center: location, zoom: 17})
-
-    button.onclick=function(){
-      actEl.remove();
-     marker.remove()
-    }
-
-    });
-
-
-
-
-
-
-  });
-  
-  
-  
-  // ()=>console.log(document.getElementById("hotels-choices"
+})
